@@ -17,13 +17,20 @@ const PrivateRoute = ({
   path: string,
   location?: Object,
 }) => {
-  console.log(roles);
   return (
     <Route
       {...rest}
       render={(props) =>
-        isAuthenticated && roles.includes(currentUserRole) ? (
-          <Component {...props} />
+        isAuthenticated ? (
+          roles.includes(currentUserRole) ? (
+            <Component {...props} />
+          ) : (
+            <Redirect
+              to={{
+                pathname: "/",
+              }}
+            />
+          )
         ) : (
           <Redirect
             to={{

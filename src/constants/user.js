@@ -3,7 +3,10 @@ export const USER_ROLES = {
   VENDOR: "Vendor",
 };
 
-export const filters = {
-  page: 1,
-  pageSize: 100,
-};
+export const RESEARCH_CENTERS = [
+  "Kahagolla",
+  "Gannoruwa",
+  "Nuwara Eliya",
+  "Bathalegoda",
+  "Colombo",
+];

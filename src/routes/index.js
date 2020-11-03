@@ -1,5 +1,7 @@
 // @flow
 import React, { Suspense, PureComponent, Fragment } from "react";
+import { type AsyncStatusType } from "shared/types/General";
+
 import { connect } from "react-redux";
 import { Switch, Route } from "react-router-dom";
 import { ConnectedRouter } from "connected-react-router";
@@ -14,19 +16,26 @@ import { isAuthenticated, isUserInitiated } from "selectors/auth";
 import routes from "./routes";
 import PrivateRoute from "./Private";
 import PublicRoute from "./Public";
+import { ASYNC_STATUS } from "constants/async";
 
 type RoutesProps = {
   isAuthenticated: Boolean,
   isUserInitiated: Boolean,
-  currentUserRole: $PropertyType<AuthStateType, "role">
+  currentUserRole: $PropertyType<AuthStateType, "role">,
+  status: AsyncStatusType,
 };
 
 class Routes extends PureComponent<RoutesProps> {
   render() {
-    const { isAuthenticated, isUserInitiated, currentUserRole } = this.props;
+    const {
+      isAuthenticated,
+      isUserInitiated,
+      currentUserRole,
+      status,
+    } = this.props;
     return (
       <Fragment>
-        {isUserInitiated ? (
+        {isUserInitiated && status !== ASYNC_STATUS.LOADING ? (
           // $FlowFixMe
           <ConnectedRouter history={history}>
             <Suspense fallback={<Loader />}>
@@ -62,7 +71,8 @@ function mapStateToProps(state) {
   return {
     isAuthenticated: isAuthenticated(state),
     isUserInitiated: isUserInitiated(state),
-    currentUserRole: state.auth.role
+    status: state.auth.status,
+    currentUserRole: state.auth.role,
   };
 }
 

@@ -19,6 +19,6 @@ export class AuthService {
   }
 
   getCurrentUser() {
-    return this.api.get(`${this.endpoint}/profile`);
+    return this.api.get(`${this.endpoint}/userData`);
   }
 }

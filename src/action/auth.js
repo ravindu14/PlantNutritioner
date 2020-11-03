@@ -65,9 +65,9 @@ export function authSignIn(payload) {
       .signIn(payload)
       .then(({ success, data }) => {
         if (success) {
-          serviceManager.get("ApiService").authToken = data.token;
-          localStorage.setItem("token", data.token);
-          dispatch({ type: AUTH_SIGN_IN_SUCCESS, payload: data.user });
+          serviceManager.get("ApiService").authToken = data.token.key;
+          localStorage.setItem("token", data.token.key);
+          dispatch({ type: AUTH_SIGN_IN_SUCCESS, payload: data });
         } else {
           dispatch(
             notificationHandler(false, "Username or password is incorrect")

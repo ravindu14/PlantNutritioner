@@ -21,6 +21,7 @@ export type AuthStateType = {
   isAuthenticated: boolean,
   isUserInitiated: boolean,
   role: null | typeof USER_ROLES.RESEARCHER,
+  researchCenter: string,
   isAuthSuccess: boolean,
   user: null | Object,
 };
@@ -30,9 +31,10 @@ const initialState: AuthStateType = {
   notification: null,
   isAuthenticated: false,
   isUserInitiated: true,
-  role: USER_ROLES.RESEARCHER,
+  role: null,
   isAuthSuccess: true,
   user: null,
+  researchCenter: "",
 };
 
 function userInitiatedSuccess(state) {
@@ -75,6 +77,8 @@ export default (
         isAuthenticated: true,
         isAuthSuccess: true,
         user: payload,
+        role: payload.role,
+        researchCenter: payload.researchCenter,
         status: ASYNC_STATUS.SUCCESS,
       };
     case AUTH_SIGN_OUT_SUCCESS:

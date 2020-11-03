@@ -9,12 +9,11 @@ import Input from "components/Input";
 import Icon from "components/icon";
 import Button from "components/button";
 import Alert from "components/Alert";
+import Select from "components/Select";
 
 import { ASYNC_STATUS } from "constants/async";
 import { AUTH_TYPE } from "constants/auth";
-import { hasWhiteSpace } from "shared/utils";
-import { isEmail } from "shared/kernel/cast";
-import Select from "components/Select";
+import { RESEARCH_CENTERS } from "constants/user";
 
 type SignUpPageProps = {
   status: AsyncStatusType,
@@ -27,18 +26,16 @@ type SignUpPageProps = {
 type SignUpPageState = {
   values: {
     userName: string,
-    email: string,
     gender: string,
-    employeeNo: string,
     role: string,
     password: string,
     repeatPassword: string,
+    researchCenter: string,
   },
   errors: {
     userName: null | string,
-    email: null | string,
-    employeeNo: null | string,
     password: null | string,
+    researchCenter: null | String,
     repeatPassword: null | string,
   },
 };
@@ -50,17 +47,17 @@ class SignUpPage extends Component<SignUpPageProps, SignUpPageState> {
     this.state = {
       values: {
         userName: "",
-        email: "",
         gender: "Male",
         role: "Researcher",
         password: "",
         repeatPassword: "",
+        researchCenter: "",
       },
       errors: {
         userName: null,
-        email: null,
         password: null,
         repeatPassword: null,
+        researchCenter: null,
       },
     };
     // $FlowFixMe
@@ -87,16 +84,16 @@ class SignUpPage extends Component<SignUpPageProps, SignUpPageState> {
     this.setState({
       errors: {
         userName: null,
-        email: null,
         password: null,
         repeatPassword: null,
+        researchCenter: null,
       },
     });
   }
 
   validateForm() {
     const {
-      values: { userName, email, password, repeatPassword },
+      values: { userName, password, repeatPassword, researchCenter },
     } = this.state;
 
     let hasError = false;
@@ -107,14 +104,9 @@ class SignUpPage extends Component<SignUpPageProps, SignUpPageState> {
       this.setFormErrors("userName", "userName is required.");
       hasError = true;
     }
-    if (email === "") {
-      this.setFormErrors("email", "Email is required.");
-      hasError = true;
-    } else if (hasWhiteSpace(email)) {
-      this.setFormErrors("email", "Email cannot contain spaces.");
-      hasError = true;
-    } else if (!isEmail(email)) {
-      this.setFormErrors("email", "Email is invalid.");
+
+    if (researchCenter === "") {
+      this.setFormErrors("researchCenter", "ResearchCenter is required.");
       hasError = true;
     }
 
@@ -140,15 +132,15 @@ class SignUpPage extends Component<SignUpPageProps, SignUpPageState> {
   onSubmitForm() {
     if (!this.validateForm()) {
       const {
-        values: { userName, email, gender, role, password },
+        values: { userName, gender, role, password, researchCenter },
       } = this.state;
 
       this.props.onSignUpSubmit({
         username: userName,
-        email: email.toLowerCase(),
         gender,
         role,
         password,
+        researchCenter,
       });
     }
   }
@@ -219,13 +211,14 @@ class SignUpPage extends Component<SignUpPageProps, SignUpPageState> {
             />
           </div>
           <div className="form-group">
-            <label>Email</label>
-            <Input
-              placeholder="Eg: user@example.com"
-              id="email"
-              text={values.email}
-              onChange={(email) => this.handleInputChange({ email })}
-              error={errors.email}
+            <label>Research Center</label>
+            <Select
+              id="researchCenter"
+              options={RESEARCH_CENTERS}
+              selected={values.researchCenter}
+              onChange={(researchCenter) =>
+                this.handleInputChange({ researchCenter })
+              }
               autoComplete={false}
             />
           </div>
@@ -269,7 +262,6 @@ class SignUpPage extends Component<SignUpPageProps, SignUpPageState> {
             )}
           </div>
         </form>
-
         <div className="button-container">
           <Button
             htmlType={Button.HTML_TYPE.BUTTON}

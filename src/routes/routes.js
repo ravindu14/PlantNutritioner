@@ -5,6 +5,13 @@ import authRoutes from "modules/auth/routes";
 
 export default [
   {
+    path: "/",
+    exact: true,
+    auth: true,
+    roles: [USER_ROLES.RESEARCHER, USER_ROLES.VENDOR],
+    component: lazy(() => import("modules/dashboard")),
+  },
+  {
     path: "/view-researches",
     exact: true,
     auth: true,
@@ -35,16 +42,16 @@ export default [
     path: "/add-products",
     exact: true,
     auth: true,
-    roles: [USER_ROLES.RESEARCHER, USER_ROLES.VENDOR],
+    roles: [USER_ROLES.VENDOR],
     component: lazy(() =>
       import("modules/researchManagement/Products/addProducts")
     ),
   },
   {
-    path: "/",
+    path: "/view-products",
     exact: true,
     auth: true,
-    roles: [USER_ROLES.RESEARCHER, USER_ROLES.VENDOR],
+    roles: [USER_ROLES.VENDOR],
     component: lazy(() =>
       import("modules/researchManagement/Products/viewProducts")
     ),

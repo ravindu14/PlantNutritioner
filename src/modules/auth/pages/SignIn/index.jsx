@@ -3,7 +3,7 @@ import React, { Component, Fragment } from "react";
 import { Redirect } from "react-router-dom";
 import {
   type AsyncStatusType,
-  type NotificationType
+  type NotificationType,
 } from "shared/types/General";
 
 import Input from "components/Input";
@@ -14,7 +14,6 @@ import Alert from "components/Alert";
 import { ASYNC_STATUS } from "constants/async";
 import { AUTH_TYPE } from "constants/auth";
 import { hasWhiteSpace } from "shared/utils";
-import { isEmail } from "shared/kernel/cast";
 
 type SignInPageProps = {
   status: AsyncStatusType,
@@ -22,19 +21,19 @@ type SignInPageProps = {
   isLoading: Boolean,
   isCapsLockActive: boolean,
   toggleAuthType: Function,
-  onSignInSubmit: Function
+  onSignInSubmit: Function,
 };
 
 type SignInPageState = {
   values: {
-    email: string,
-    password: string
+    username: string,
+    password: string,
   },
   errors: {
-    email: null | String,
-    password: null | string
+    username: null | String,
+    password: null | string,
   },
-  isResetPasswordClicked: boolean
+  isResetPasswordClicked: boolean,
 };
 
 class SignInPage extends Component<SignInPageProps, SignInPageState> {
@@ -43,14 +42,14 @@ class SignInPage extends Component<SignInPageProps, SignInPageState> {
 
     this.state = {
       values: {
-        email: "",
-        password: ""
+        username: "",
+        password: "",
       },
       errors: {
-        email: null,
-        password: null
+        username: null,
+        password: null,
       },
-      isResetPasswordClicked: false
+      isResetPasswordClicked: false,
     };
     // $FlowFixMe
     this.onSubmit = this.onSubmit.bind(this);
@@ -79,29 +78,26 @@ class SignInPage extends Component<SignInPageProps, SignInPageState> {
   resetForm() {
     this.setState({
       errors: {
-        email: null,
-        password: null
-      }
+        username: null,
+        password: null,
+      },
     });
   }
 
   validateForm() {
     const {
-      values: { email, password }
+      values: { username, password },
     } = this.state;
 
     let hasError = false;
 
     this.resetForm();
 
-    if (email === "") {
-      this.setFormErrors("email", "Email is required.");
+    if (username === "") {
+      this.setFormErrors("username", "Username is required.");
       hasError = true;
-    } else if (hasWhiteSpace(email)) {
-      this.setFormErrors("email", "Email cannot contain spaces.");
-      hasError = true;
-    } else if (!isEmail(email)) {
-      this.setFormErrors("email", "Email is invalid.");
+    } else if (hasWhiteSpace(username)) {
+      this.setFormErrors("username", "Username cannot contain spaces.");
       hasError = true;
     }
     if (password === "") {
@@ -116,15 +112,15 @@ class SignInPage extends Component<SignInPageProps, SignInPageState> {
     this.setState(({ errors }) => ({
       errors: {
         ...errors,
-        [field]: message
-      }
+        [field]: message,
+      },
     }));
   }
 
   handleResetPasswordClicked() {
     this.setState({
       ...this.state,
-      isResetPasswordClicked: !this.state.isResetPasswordClicked
+      isResetPasswordClicked: !this.state.isResetPasswordClicked,
     });
   }
 
@@ -132,8 +128,8 @@ class SignInPage extends Component<SignInPageProps, SignInPageState> {
     this.setState(({ values }) => ({
       values: {
         ...values,
-        ...value
-      }
+        ...value,
+      },
     }));
   }
 
@@ -152,10 +148,10 @@ class SignInPage extends Component<SignInPageProps, SignInPageState> {
 
   onSubmit() {
     const {
-      values: { email, password }
+      values: { username, password },
     } = this.state;
 
-    this.props.onSignInSubmit({ email: email.toLowerCase(), password });
+    this.props.onSignInSubmit({ username, password });
   }
 
   render() {
@@ -173,13 +169,13 @@ class SignInPage extends Component<SignInPageProps, SignInPageState> {
         )}
         <form autoComplete="off">
           <div className="form-group">
-            <label>Email</label>
+            <label>Username</label>
             <Input
-              placeholder="Eg: user@example.com"
-              id="email"
-              text={values.email}
-              onChange={email => this.handleInputChange({ email })}
-              error={errors.email}
+              placeholder="user name"
+              id="username"
+              text={values.username}
+              onChange={(username) => this.handleInputChange({ username })}
+              error={errors.username}
               autoComplete={false}
             />
           </div>
@@ -190,7 +186,7 @@ class SignInPage extends Component<SignInPageProps, SignInPageState> {
               placeholder="at least 6 characters including a number, a special character, lower case and upper case letters."
               id="password"
               text={values.password}
-              onChange={password => this.handleInputChange({ password })}
+              onChange={(password) => this.handleInputChange({ password })}
               type="password"
               error={errors.password}
               autoComplete={false}

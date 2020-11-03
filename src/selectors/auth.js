@@ -2,9 +2,9 @@
 import type { ApplicationState } from "store/reducers";
 
 export const isAuthenticated = (state: ApplicationState) => {
-  return true; //state.auth.isAuthenticated;
+  return state.auth.isAuthenticated;
 };
 
 export const isUserInitiated = (state: ApplicationState) => {
-  return true; //state.auth.isUserInitiated;
+  return state.auth.isUserInitiated;
 };
