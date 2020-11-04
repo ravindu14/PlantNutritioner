@@ -17,4 +17,8 @@ export class ProductService {
   saveProduct(payload: Object = {}) {
     return this.api.post(`${this.endpoint}/save`, payload);
   }
+
+  getProductsByDeficiency(query: Object = {}) {
+    return this.api.get(`${this.endpoint}/get-by-deficiency`, query);
+  }
 }

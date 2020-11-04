@@ -6,6 +6,7 @@ import { AuthService } from "./authService";
 import { StorageService } from "./storageService";
 import { DeficiencyService } from "./deficiencyService";
 import { ProductService } from "./productService";
+import { ResearchService } from "./researchService";
 
 export const registerServices = (options) => {
   registerGlobalServices(options);
@@ -28,6 +29,11 @@ export const registerServices = (options) => {
   serviceManager.register("ProductService", (serviceManager) => {
     let api = serviceManager.get("ApiService");
     return new ProductService(api);
+  });
+
+  serviceManager.register("ResearchService", (serviceManager) => {
+    let api = serviceManager.get("ApiService");
+    return new ResearchService(api);
   });
 };
 export { serviceManager };

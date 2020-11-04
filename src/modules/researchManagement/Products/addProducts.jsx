@@ -20,9 +20,9 @@ import Alert from "components/Alert";
 import { saveProduct, initializeProduct } from "action/product";
 import { getAllDeficiency } from "action/deficiency";
 import { ASYNC_STATUS } from "constants/async";
+import { isEmpty } from "shared/utils";
 
 import "./styles.scss";
-import { isEmpty } from "shared/utils";
 
 type AddProductsPageProps = {
   initializeProduct: Function,
