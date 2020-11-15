@@ -66,7 +66,7 @@ export default [
     ),
   },
   {
-    path: "/add-verifications",
+    path: "/update-verifications/:verificationId",
     exact: true,
     auth: true,
     roles: [USER_ROLES.RESEARCHER],

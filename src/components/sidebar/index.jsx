@@ -55,7 +55,6 @@ class sidebar extends Component<sidebarProps> {
               title="Verify Requests"
               icon="tag"
               items={[
-                { title: "Add Verification", link: "/add-verifications" },
                 { title: "View Verify Requests", link: "/view-verifications" },
               ]}
             />
